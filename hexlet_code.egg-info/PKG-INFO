@@ -1,0 +1,22 @@
+Metadata-Version: 2.4
+Name: hexlet-code
+Version: 0.1.0
+Summary: Page Analyzer
+Requires-Python: >=3.13
+Description-Content-Type: text/markdown
+Requires-Dist: beautifulsoup4>=4.14.2
+Requires-Dist: flask>=2.3.0
+Requires-Dist: gunicorn
+Requires-Dist: psycopg>=3.2.12
+Requires-Dist: psycopg-binary>=3.2.12
+Requires-Dist: psycopg2-binary==2.9.11
+Requires-Dist: pytest<9.0.0,>=6.2.4
+Requires-Dist: python-dotenv>=1.2.1
+Requires-Dist: requests>=2.32.5
+Requires-Dist: ruff>=0.14.4
+Requires-Dist: validators>=0.35.0
+Provides-Extra: dev
+Requires-Dist: ruff; extra == "dev"
+
+### Hexlet tests and linter status:
+[![Actions Status](https://github.com/OlegRakhilov/python-project-83/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/OlegRakhilov/python-project-83/actions)

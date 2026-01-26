@@ -1,0 +1,48 @@
+[project]
+name = "hexlet-code"
+version = "0.1.0"
+description = "Page Analyzer"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "beautifulsoup4>=4.14.2",
+    "flask>=2.3.0",
+    "gunicorn",
+    "psycopg>=3.2.12",
+    "psycopg-binary>=3.2.12",
+    "psycopg2-binary==2.9.11",
+    "pytest>=6.2.4,<9.0.0",
+    "python-dotenv>=1.2.1",
+    "requests>=2.32.5",
+    "ruff>=0.14.4",
+    "validators>=0.35.0",
+]
+
+[project.scripts]
+page-analyzer = "app:app"
+
+[project.optional-dependencies]
+dev = [
+    "ruff"
+]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "B",  # flake8-bugbear
+    "C4", # flake8-comprehensions
+    "UP", # pyupgrade
+]
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.uv]
+package = true
