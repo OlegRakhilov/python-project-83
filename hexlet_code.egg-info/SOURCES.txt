@@ -8,3 +8,6 @@ hexlet_code.egg-info/requires.txt
 hexlet_code.egg-info/top_level.txt
 page_analyzer/__init__.py
 page_analyzer/app.py
+page_analyzer/checker.py
+page_analyzer/normalizer.py
+page_analyzer/repository.py
