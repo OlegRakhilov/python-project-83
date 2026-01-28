@@ -43,6 +43,7 @@
         </thead>
         <tbody>
             {% for check in checks %}
+            
             <tr>
                 <td>{{ check.id }}</td>
                 <td>{{ check.status_code if check.status_code else '' }}</td>
