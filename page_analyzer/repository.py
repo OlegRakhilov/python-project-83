@@ -3,17 +3,14 @@ from psycopg2.extras import RealDictCursor
 
 
 class UrlsRepository:
-    """Репозиторий для работы с БД Urls"""
 
     def __init__(self, db_url):
         self.db_url = db_url
 
     def get_connection(self):
-        # создание подключения
         return psycopg2.connect(self.db_url)
 
     def get_urls(self):
-        # получение всей таблицы urls
         conn = self.get_connection()
         try:
             with conn.cursor(cursor_factory=RealDictCursor) as cur:
@@ -23,7 +20,6 @@ class UrlsRepository:
             conn.close()
 
     def find(self, id):
-        # поиск в таблице urls по id url
         conn = self.get_connection()
         try:
             with conn.cursor(cursor_factory=RealDictCursor) as cur:
@@ -33,7 +29,6 @@ class UrlsRepository:
             conn.close()
 
     def find_by_name(self, normalized_url):
-        # поиск в таблице urls по имени url
         conn = self.get_connection()
         try:
             with conn.cursor(cursor_factory=RealDictCursor) as cur:
@@ -43,7 +38,6 @@ class UrlsRepository:
             conn.close()
 
     def save(self, normalized_url):
-        # функция добавления новой записи в таблицу urls
         conn = self.get_connection()
         try:
             with conn.cursor() as cur:
@@ -76,20 +70,16 @@ class UrlsRepository:
 
 
 class ChecksRepository:
-    """Репозиторий для работы с таблицей проверок url_checks"""
 
     def __init__(self, db_url):
         self.db_url = db_url
 
     def get_connection(self):
-        # создание подключения
         return psycopg2.connect(self.db_url)
 
     def create_check(self, url_id, check_data):
-        # создание в таблице url_checks новой записи о проверке
         conn = self.get_connection()
         try:
-            # выполнение записи в таблицу url_checks новых данных
             with conn.cursor() as cur:
                 cur.execute(
                     """INSERT INTO url_checks
@@ -112,7 +102,6 @@ class ChecksRepository:
             conn.close()
 
     def get_checks_by_url_id(self, url_id):
-        # получение списка уже проведенных проверок по url
         conn = self.get_connection()
         try:
             with conn.cursor(cursor_factory=RealDictCursor) as cur:
