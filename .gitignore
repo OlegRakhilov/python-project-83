@@ -6,3 +6,4 @@ __pycache__
 hexlet_code.egg-info/
 venv/
 .pytest_cache/
+tests/
