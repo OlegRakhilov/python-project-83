@@ -5,3 +5,4 @@ __pycache__
 .python-version
 hexlet_code.egg-info/
 venv/
+.pytest_cache/

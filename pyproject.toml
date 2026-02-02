@@ -46,3 +46,8 @@ quote-style = "double"
 
 [tool.uv]
 package = true
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.2",
+]
