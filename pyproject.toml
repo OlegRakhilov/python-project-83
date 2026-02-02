@@ -40,6 +40,16 @@ select = [
     "C4", # flake8-comprehensions
     "UP", # pyupgrade
 ]
+ignore = [
+    "D",      # Игнорировать отсутствие докстрингов (Missing docstring)
+    "ANN",    # Игнорировать отсутствие аннотаций типов (Missing type annotation)
+    "A002",   # Разрешить использование id как аргумента (shadowing builtin)
+    "S201",   # Разрешить debug=True в Flask
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
 
 [tool.ruff.format]
 quote-style = "double"

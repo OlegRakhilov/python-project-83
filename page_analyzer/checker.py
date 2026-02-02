@@ -1,7 +1,8 @@
+"""URL Checker module."""
 import requests
 from bs4 import BeautifulSoup
 
-
+"""Get SEO info from URL."""
 def get_check_info(url):
     headers = {
     'User-Agent': (

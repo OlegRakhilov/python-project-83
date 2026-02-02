@@ -1,3 +1,4 @@
+"""Page Analyzer Application."""
 import os
 
 from dotenv import load_dotenv
@@ -19,18 +20,24 @@ repo = UrlsRepository(db_url)
 checks_repo = ChecksRepository(db_url)
 
 @app.route("/")
+
 def index():
+    """Render index page."""
     return render_template("index.html")
 
 
 @app.route("/urls")
+
 def urls():
+    """Show list of urls."""
     urls = repo.get_url_with_checks()
     return render_template("urls.html", urls=urls)
 
 
 @app.route("/urls", methods=["POST"])
+
 def create_url():
+    """Create new url entry."""
     url = request.form.get("url")
 
     errors = validate(url)
@@ -53,6 +60,7 @@ def create_url():
 
 @app.route("/urls/<int:id>")
 def show_urls_info(id):
+    """Show specific url details."""
     url = repo.find(id)
     if not url:
         flash("Страница не найдена", "error")
@@ -65,6 +73,7 @@ def show_urls_info(id):
 
 @app.route("/urls/<int:id>/checks", methods=["POST"])
 def check_url(id):
+    """Run check for a specific url."""
     url = repo.find(id)
     if not url:
         flash("Страница не найдена", "error")
