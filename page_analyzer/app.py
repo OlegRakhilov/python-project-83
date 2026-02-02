@@ -11,12 +11,12 @@ from page_analyzer.validator import validate
 load_dotenv()
 app = Flask(__name__)
 app.config['DATABASE_URL'] = os.getenv('DATABASE_URL')
-app.config['SECRET_KEY'] = 'dev-key-123'
-repo = UrlsRepository(app.config['DATABASE_URL'])
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev-key-123')
 
-repo = UrlsRepository(app.config["DATABASE_URL"])
-checks_repo = ChecksRepository(app.config["DATABASE_URL"])
+db_url = app.config['DATABASE_URL']
 
+repo = UrlsRepository(db_url)
+checks_repo = ChecksRepository(db_url)
 
 @app.route("/")
 def index():
