@@ -39,12 +39,13 @@ def urls():
 def create_url():
     """Create new url entry."""
     repo = UrlsRepository(app.config["DATABASE_URL"])
-    checks_repo = ChecksRepository(app.config["DATABASE_URL"])
+    url = request.form.get("url")
 
     errors = validate(url)
-    for error in errors.values():
-        flash(error, "error")
-        return render_template("index.html", url=url, errors=errors), 422  # noqa: E501
+    if errors:
+        for error in errors.values():
+            flash(error, "error")
+        return render_template("index.html", url=url, errors=errors), 422
 
     normalized_url = normalize_url(url)
 
@@ -62,11 +63,9 @@ def create_url():
 @app.route("/urls/<int:url_id>")
 def show_urls_info(url_id: int) -> str:
     """Show specific url details."""
-    # Получаем URL базы из конфига
     db_url = app.config.get("DATABASE_URL")
-    # Создаем репозитории прямо здесь
-    repo = UrlsRepository(app.config["DATABASE_URL"])
-    checks_repo = ChecksRepository(app.config["DATABASE_URL"])
+    repo = UrlsRepository(db_url)
+    checks_repo = ChecksRepository(db_url)
 
     url = repo.find(url_id)
     if not url:
@@ -81,8 +80,8 @@ def check_url(url_id: int) -> Any:
     """Run check for a specific url."""
     # ДОБАВЬТЕ ЭТИ СТРОКИ:
     db_url = app.config.get("DATABASE_URL")
-    repo = UrlsRepository(app.config["DATABASE_URL"])
-    checks_repo = ChecksRepository(app.config["DATABASE_URL"])
+    repo = UrlsRepository(db_url)
+    checks_repo = ChecksRepository(db_url)
 
     # Теперь код ниже будет работать:
     url = repo.find(url_id)
