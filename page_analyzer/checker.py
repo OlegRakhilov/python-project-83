@@ -2,7 +2,6 @@
 import requests
 from bs4 import BeautifulSoup
 
-
 """Get SEO info from URL."""
 
 
@@ -36,8 +35,9 @@ def get_check_info(url):
         title = title_tag.get_text().strip() if title_tag else ""
 
         meta_description = soup.find("meta", attrs={"name": "description"})
-        description = meta_description.get("content").strip()
+        description = (meta_description.get("content").strip()
         if meta_description else ""
+        )
 
         status_code = response.status_code
 
