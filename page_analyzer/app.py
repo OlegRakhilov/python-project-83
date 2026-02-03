@@ -17,26 +17,28 @@ app.config['DATABASE_URL'] = os.getenv('DATABASE_URL')
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev-key-123')
 
 
-def get_repositories():
+def get_repositories() -> tuple:
+    """Return repositories."""
     db_url = app.config['DATABASE_URL']
     return UrlsRepository(db_url), ChecksRepository(db_url)
 
 
 @app.route("/")
-def index():
+def index() -> str:
     """Render index page."""
     return render_template("index.html")
 
 
 @app.route("/urls")
-def urls():
+def urls() -> str:
+    """Show list of urls."""
     repo = UrlsRepository(app.config["DATABASE_URL"])
     urls_list = repo.get_url_with_checks()
     return render_template("urls.html", urls=urls_list)
 
 
 @app.route("/urls", methods=["POST"])
-def create_url():
+def create_url() -> Any:
     """Create new url entry."""
     repo = UrlsRepository(app.config["DATABASE_URL"])
     url = request.form.get("url")
@@ -56,7 +58,7 @@ def create_url():
 
 
 @app.route("/urls/<int:url_id>")
-def show_urls_info(url_id: int) -> str:
+def show_urls_info(url_id: int) -> Any:
     """Show specific url details."""
     db_url = app.config.get("DATABASE_URL")
     repo = UrlsRepository(db_url)
