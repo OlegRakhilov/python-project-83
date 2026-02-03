@@ -15,9 +15,9 @@ app = Flask(__name__)
 app.config['DATABASE_URL'] = os.getenv('DATABASE_URL')
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev-key-123')
 
-db_url = app.config['DATABASE_URL']
-repo = UrlsRepository(db_url)
-checks_repo = ChecksRepository(db_url)
+db_url = os.getenv('DATABASE_URL')
+repo = UrlsRepository(db_url) if db_url else None
+checks_repo = ChecksRepository(db_url) if db_url else None
 
 @app.route("/")
 

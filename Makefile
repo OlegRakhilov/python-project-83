@@ -18,4 +18,5 @@ render-start:
 	uv run gunicorn -w 5 -b 0.0.0.0:$(PORT) page_analyzer.app:app
 
 test:
-	uv run pytest
+	psql $(DATABASE_URL) -f database.sql || true
+	PYTHONPATH=. pytest
