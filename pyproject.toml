@@ -19,7 +19,7 @@ dependencies = [
 ]
 
 [project.scripts]
-page-analyzer = "app:app"
+page-analyzer = "page_analyzer.app:app"
 
 [project.optional-dependencies]
 dev = [
