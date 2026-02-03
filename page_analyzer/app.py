@@ -21,7 +21,6 @@ def get_repositories():
     return UrlsRepository(db_url), ChecksRepository(db_url)
 
 @app.route("/")
-
 def index():
     """Render index page."""
     return render_template("index.html")
@@ -35,7 +34,6 @@ def urls():
 
 
 @app.route("/urls", methods=["POST"])
-
 def create_url():
     """Create new url entry."""
     repo = UrlsRepository(app.config["DATABASE_URL"])
