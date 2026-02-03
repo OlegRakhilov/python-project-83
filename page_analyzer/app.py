@@ -16,9 +16,11 @@ app = Flask(__name__)
 app.config['DATABASE_URL'] = os.getenv('DATABASE_URL')
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev-key-123')
 
+
 def get_repositories():
     db_url = app.config['DATABASE_URL']
     return UrlsRepository(db_url), ChecksRepository(db_url)
+
 
 @app.route("/")
 def index():
@@ -38,22 +40,17 @@ def create_url():
     """Create new url entry."""
     repo = UrlsRepository(app.config["DATABASE_URL"])
     url = request.form.get("url")
-
     errors = validate(url)
     if errors:
         for error in errors.values():
             flash(error, "error")
         return render_template("index.html", url=url, errors=errors), 422
-
     normalized_url = normalize_url(url)
-
     existing_url = repo.find_by_name(normalized_url)
     if existing_url:
         flash("Страница уже существует", "error")
         return redirect(url_for("show_urls_info", url_id=existing_url["id"]))
-
     saved_id = repo.save(normalized_url)
-
     flash("Страница успешно добавлена", "success")
     return redirect(url_for("show_urls_info", url_id=saved_id))
 
@@ -64,14 +61,13 @@ def show_urls_info(url_id: int) -> str:
     db_url = app.config.get("DATABASE_URL")
     repo = UrlsRepository(db_url)
     checks_repo = ChecksRepository(db_url)
-
     url = repo.find(url_id)
     if not url:
         flash("Страница не найдена", "error")
         return redirect(url_for("urls"))
-
     checks = checks_repo.get_checks_by_url_id(url_id)
     return render_template("url_info.html", url=url, checks=checks)
+
 
 @app.route("/urls/<int:url_id>/checks", methods=["POST"])
 def check_url(url_id: int) -> Any:
@@ -80,15 +76,12 @@ def check_url(url_id: int) -> Any:
     db_url = app.config.get("DATABASE_URL")
     repo = UrlsRepository(db_url)
     checks_repo = ChecksRepository(db_url)
-
     # Теперь код ниже будет работать:
     url = repo.find(url_id)
     if not url:
         flash("Страница не найдена", "error")
         return redirect(url_for("urls"))
-
     check_data = get_check_info(url["name"])
-
     if check_data and checks_repo.create_check(url_id, check_data):
         flash("Страница успешно проверена", "success")
     else:
