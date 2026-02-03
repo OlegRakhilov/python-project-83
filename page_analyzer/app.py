@@ -1,5 +1,6 @@
 """Page Analyzer Application."""
 import os
+from typing import Any
 
 from dotenv import load_dotenv
 from flask import Flask, flash, redirect, render_template, request, url_for
@@ -15,9 +16,9 @@ app = Flask(__name__)
 app.config['DATABASE_URL'] = os.getenv('DATABASE_URL')
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev-key-123')
 
-db_url = os.getenv('DATABASE_URL')
-repo = UrlsRepository(db_url) if db_url else None
-checks_repo = ChecksRepository(db_url) if db_url else None
+def get_repositories():
+    db_url = app.config['DATABASE_URL']
+    return UrlsRepository(db_url), ChecksRepository(db_url)
 
 @app.route("/")
 
@@ -27,17 +28,17 @@ def index():
 
 
 @app.route("/urls")
-
 def urls():
-    """Show list of urls."""
-    urls = repo.get_url_with_checks()
-    return render_template("urls.html", urls=urls)
+    repo, _ = get_repositories() # Получаем репозиторий внутри функции
+    urls_list = repo.get_url_with_checks()
+    return render_template("urls.html", urls=urls_list)
 
 
 @app.route("/urls", methods=["POST"])
 
 def create_url():
     """Create new url entry."""
+    repo = UrlsRepository(app.config["DATABASE_URL"])
     url = request.form.get("url")
 
     errors = validate(url)
@@ -50,43 +51,53 @@ def create_url():
     existing_url = repo.find_by_name(normalized_url)
     if existing_url:
         flash("Страница уже существует", "error")
-        return redirect(url_for("show_urls_info", id=existing_url["id"]))
+        return redirect(url_for("show_urls_info", url_id=existing_url["id"]))
 
     saved_id = repo.save(normalized_url)
 
     flash("Страница успешно добавлена", "success")
-    return redirect(url_for("show_urls_info", id=saved_id))
+    return redirect(url_for("show_urls_info", url_id=saved_id))
 
 
-@app.route("/urls/<int:id>")
-def show_urls_info(id):
+@app.route("/urls/<int:url_id>")
+def show_urls_info(url_id: int) -> str:
     """Show specific url details."""
-    url = repo.find(id)
+    # Получаем URL базы из конфига
+    db_url = app.config.get("DATABASE_URL")
+    # Создаем репозитории прямо здесь
+    repo = UrlsRepository(db_url)
+    checks_repo = ChecksRepository(db_url)
+
+    url = repo.find(url_id)
     if not url:
         flash("Страница не найдена", "error")
         return redirect(url_for("urls"))
 
-    checks = checks_repo.get_checks_by_url_id(id)
-
+    checks = checks_repo.get_checks_by_url_id(url_id)
     return render_template("url_info.html", url=url, checks=checks)
 
-
-@app.route("/urls/<int:id>/checks", methods=["POST"])
-def check_url(id):
+@app.route("/urls/<int:url_id>/checks", methods=["POST"])
+def check_url(url_id: int) -> Any:
     """Run check for a specific url."""
-    url = repo.find(id)
+    # ДОБАВЬТЕ ЭТИ СТРОКИ:
+    db_url = app.config.get("DATABASE_URL")
+    repo = UrlsRepository(db_url)
+    checks_repo = ChecksRepository(db_url)
+
+    # Теперь код ниже будет работать:
+    url = repo.find(url_id)
     if not url:
         flash("Страница не найдена", "error")
         return redirect(url_for("urls"))
 
     check_data = get_check_info(url["name"])
 
-    if check_data and checks_repo.create_check(id, check_data):
+    if check_data and checks_repo.create_check(url_id, check_data):
         flash("Страница успешно проверена", "success")
     else:
         flash("Произошла ошибка при проверке", "error")
 
-    return redirect(url_for("show_urls_info", id=id))
+    return redirect(url_for("show_urls_info", url_id=url_id))
 
 
 if __name__ == "__main__":
