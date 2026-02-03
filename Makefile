@@ -19,4 +19,4 @@ render-start:
 
 test:
 	psql $(DATABASE_URL) -f database.sql || true
-	PYTHONPATH=. pytest
+	PYTHONPATH=. uv run pytest
