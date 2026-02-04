@@ -135,21 +135,15 @@ dependencies = [
     { name = "psycopg" },
     { name = "psycopg-binary" },
     { name = "psycopg2-binary" },
-    { name = "pytest" },
     { name = "python-dotenv" },
     { name = "requests" },
-    { name = "ruff" },
     { name = "validators" },
-]
-
-[package.optional-dependencies]
-dev = [
-    { name = "ruff" },
 ]
 
 [package.dev-dependencies]
 dev = [
     { name = "pytest" },
+    { name = "ruff" },
 ]
 
 [package.metadata]
@@ -160,17 +154,16 @@ requires-dist = [
     { name = "psycopg", specifier = ">=3.2.12" },
     { name = "psycopg-binary", specifier = ">=3.2.12" },
     { name = "psycopg2-binary", specifier = "==2.9.11" },
-    { name = "pytest", specifier = ">=6.2.4,<9.0.0" },
     { name = "python-dotenv", specifier = ">=1.2.1" },
     { name = "requests", specifier = ">=2.32.5" },
-    { name = "ruff", specifier = ">=0.14.4" },
-    { name = "ruff", marker = "extra == 'dev'" },
     { name = "validators", specifier = ">=0.35.0" },
 ]
-provides-extras = ["dev"]
 
 [package.metadata.requires-dev]
-dev = [{ name = "pytest", specifier = ">=8.4.2" }]
+dev = [
+    { name = "pytest", specifier = ">=8.4.2" },
+    { name = "ruff", specifier = ">=0.14.4" },
+]
 
 [[package]]
 name = "idna"
