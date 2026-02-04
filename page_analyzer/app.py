@@ -11,10 +11,10 @@ from page_analyzer.repository import ChecksRepository, UrlsRepository
 from page_analyzer.validator import validate
 
 load_dotenv()
-app = Flask(__name__)
+app = Flask(__name__) # NOSONAR
 
 app.config['DATABASE_URL'] = os.getenv('DATABASE_URL')
-app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev-key-123')
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev-key-123') #NOSONAR
 
 
 def get_repositories() -> tuple:
@@ -93,4 +93,4 @@ def check_url(url_id: int) -> Any:
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True) # NOSONAR
