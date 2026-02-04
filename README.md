@@ -1,15 +1,14 @@
 ### Hexlet tests and linter status:
 [![Actions Status](https://github.com/OlegRakhilov/python-project-83/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/OlegRakhilov/python-project-83/actions)
 
-Page Analyzer
-Page Analyzer is a Flask web application that allows users to analyze web pages for SEO effectiveness. The application checks the availability of websites and analyzes elements such as headers, descriptions, and H1 tags.
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=OlegRakhilov_python-project-83&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=OlegRakhilov_python-project-83)
 
-Features
-URL availability check.
-Analysis of title and description tags.
-Display of check results on the user interface.
-Demo
-You can view the application in action at this link:
+Page Analyzer
+### Описание
+**Анализатор страниц** — это полноценное веб-приложение на Flask, которое позволяет анализировать указанные сайты на соответствие SEO-параметрам. Оно проверяет доступность сайта, извлекает теги H1, Title и описание (meta description).
+
+Демо
+Вы можете посмотреть, как работает приложение, по этой ссылке:
 https://python-project-83-lr6q.onrender.com
 
 Стек технологий
@@ -49,4 +48,6 @@ https://python-project-83-lr6q.onrender.com
 ```bash
 make dev  
 
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=OlegRakhilov_python-project-83&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=OlegRakhilov_python-project-83)
+Продакшн-версия (через Gunicorn):
+bash
+make start
