@@ -28,6 +28,7 @@ dev = [
 [tool.ruff]
 line-length = 120
 target-version = "py313"  # Поднял до версии вашего Python
+extend-exclude = ["build/"] 
 
 [tool.ruff.lint]
 select = [
